@@ -36,32 +36,31 @@ class Dashboard extends Component {
 
   selectPanel(id) {
     this.setState({
-     focused: id
+      focused: id
     });
-   }
+  }
 
   render() {
     const dashboardClasses = classnames("dashboard", {
       "dashboard--focused": this.state.focused
-     });
+    });
 
     if (this.state.loading) {
       return <Loading />;
     }
 
     const panels = data
-    .filter(
-     panel => this.state.focused === null || this.state.focused === panel.id
-    )
-    .map(panel => (
-     <Panel
-      key={panel.id}
-      id={panel.id}
-      label={panel.label}
-      value={panel.value}
-      onSelect={this.selectPanel}
-     />
-    ));
+      .filter(
+        panel => this.state.focused === null || this.state.focused === panel.id
+      )
+      .map(panel => (
+        <Panel
+          key={panel.id}
+          label={panel.label}
+          value={panel.value}
+          onSelect={event => this.selectPanel(panel.id)}
+        />
+      ));
 
     return <main className={dashboardClasses}>{panels}</main>;
   }

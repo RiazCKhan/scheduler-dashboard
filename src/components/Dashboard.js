@@ -4,6 +4,13 @@ import axios from "axios";
 import Loading from "./Loading";
 import Panel from "./Panel";
 
+import {
+  getTotalInterviews,
+  getLeastPopularTimeSlot,
+  getMostPopularDay,
+  getInterviewsPerDay
+ } from "helpers/selectors";
+
 import classnames from "classnames";
 
 const data = [
@@ -77,7 +84,6 @@ class Dashboard extends Component {
     });
 
     if (this.state.loading) {
-      console.log(this.state)
       return <Loading />;
     }
 

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import Loading from "./Loading";
 import Panel from "./Panel";
@@ -43,6 +44,19 @@ class Dashboard extends Component {
     if (focused) {
       this.setState({ focused });
     }
+
+    Promise.all([
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers")
+    ]).then(([days, appointments, interviewers]) => {
+      this.setState({
+        loading: false,
+        days: days.data,
+        appointments: appointments.data,
+        interviewers: interviewers.data
+      });
+    });
   }
 
   componentDidUpdate(previousProps, previousState) {
@@ -52,7 +66,7 @@ class Dashboard extends Component {
   }
 
   selectPanel(id) {
-    this.setState( previousState => ({
+    this.setState(previousState => ({
       focused: previousState.focused !== null ? null : id
     }));
   }
@@ -63,6 +77,7 @@ class Dashboard extends Component {
     });
 
     if (this.state.loading) {
+      console.log(this.state)
       return <Loading />;
     }
 
